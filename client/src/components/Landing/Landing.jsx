@@ -8,7 +8,7 @@ const Landing = () => {
       <div className={style.background} style={{ backgroundImage: `url(${dogLandingImage})` }}></div>
       <div className={style.overlay}></div>
       <div className={style.content}>
-        <h1 className={style.title}>Welcome to the dog website</h1>
+        <h1 className={style.title}>Bienvenido a mi Dog App</h1>
         <Link to="/home" className={style.link}>
           <button className={`${style.button} ${style.enterButton}`}>Enter</button>
         </Link>

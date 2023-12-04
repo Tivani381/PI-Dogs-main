@@ -8,6 +8,7 @@ const initialState = {
   error: null,
 };
 
+//definir el reducer
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_DOGS:
