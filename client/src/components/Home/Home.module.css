@@ -52,7 +52,7 @@
     background-color: #ffffff;
     opacity: 0.9;
     box-shadow: 0 2px 6px #0000001a;
-    position: sticky;
+    position: static;
     top: 0;
     z-index: 1;
   }
@@ -97,11 +97,18 @@
     border-color: #007bff;
     box-shadow: 0 0 0 2px #007bff4d;
   }
+
+  .reloadButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
   
   .reloadButton {
     padding: 8px 16px;
     font-size: 16px;
-    background-color: #007bff;
+    background-color: #495057;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -110,6 +117,6 @@
   }
   
   .reloadButton:hover {
-    background-color: #0056b3;
+    background-color: #343a40; 
   }
   

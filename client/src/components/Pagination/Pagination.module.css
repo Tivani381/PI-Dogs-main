@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     margin-top: 16px;
-    background-color: #f3bcb4;
+    background-color: #61a5c2; 
     margin-bottom: -20px;
   }
   
@@ -13,7 +13,7 @@
   }
   
   .PageNumber {
-    background-color: #007bff;
+    background-color: #495057;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -26,7 +26,7 @@
   
   
   .PageNumber:hover {
-    background-color: #0044ff;
+    background-color: #343a40; 
   }
   
   .PageNumber:focus {

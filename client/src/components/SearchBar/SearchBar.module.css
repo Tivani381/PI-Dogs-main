@@ -14,7 +14,7 @@
   .SearchButton {
     font-size: 16px;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #495057;
     border: none;
     margin-right: 2em;
     border-radius: 5px;
@@ -23,7 +23,7 @@
     transition: background-color 0.3s;
   }
   .SearchButton:hover {
-    background-color: #0044ff;
+    background-color: #343a40; 
   }
   .Error {
     color: red;

@@ -77,6 +77,9 @@ const Home = () => {
   return (
     <div className={styles.homeAll}>
       <div className={styles.filterContainer}>
+      <div className={styles.titleContainer}>
+        <h1 className={styles.title}>¡Bienvenido a mundo perruno!</h1>
+      </div>
         <div className={styles.SearchBar}>
           <SearchBar onSearch={handleSearch} />
         </div>
@@ -146,16 +149,15 @@ const Home = () => {
             </select>
           </div>
         </div>
-      </div>
-      <div className={styles.titleContainer}>
-        <h1 className={styles.title}>¡Bienvenido a Dog World!</h1>
-      </div>
+      <div className={styles.reloadButtonContainer}>
       <button
         className={styles.reloadButton}
         onClick={(event) => handleClick(event)}
       >
         Eliminar filtros
       </button>
+    </div>
+      </div>
       <div className={styles.dogsContainer}>
         {currentDogs?.map((dog) => (
           <Dogs
