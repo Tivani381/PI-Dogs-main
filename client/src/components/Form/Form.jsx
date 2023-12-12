@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postDog, getTemperaments } from "../../redux/actions/actions";
 import { validate } from "../../Extras/validate";
 import styles from "../Form/Form.module.css";
 
 const Form = () => {
+  const crearButtonRef = useRef(null)  
   const dispatch = useDispatch();
   const [input, setInput] = useState({
     //? Estado local para todos los inputs
@@ -35,6 +36,11 @@ const Form = () => {
     //? Manejo del input
     const { name, value } = event.target;
     const error = validate(name, value);
+    if (error) {
+      crearButtonRef.current.disabled = true;
+    } else {
+      crearButtonRef.current.disabled = false
+    }
     setInput((prevInput) => ({
       ...prevInput,
       [name]: value,
@@ -47,27 +53,40 @@ const Form = () => {
   };
 
   const handleSelect = (event) => {
-     //? Selección de temperamentos para que se mantengan los seleccionados
     const selectedTemperament = event.target.value;
     const selectedTempObject = temperaments.find(
       (temp) => temp.name === selectedTemperament
     );
-    setInput((prevInput) => ({
-      ...prevInput,
-      temperament: [...prevInput.temperament, selectedTemperament],
-      temperaments: [...prevInput.temperaments, selectedTempObject],
-    }));
-    setSelectedTemps((prevSelectedTemperaments) => [
-      ...prevSelectedTemperaments,
-      selectedTempObject,
-    ]);
+  
+    // Verificar si el temperamento ya está seleccionado
+    if (
+      !input.temperament.includes(selectedTemperament) &&
+      !selectedTemps.some((temp) => temp.name === selectedTemperament)
+    ) {
+      setInput((prevInput) => ({
+        ...prevInput,
+        temperament: [...prevInput.temperament, selectedTemperament],
+        temperaments: [...prevInput.temperaments, selectedTempObject],
+      }));
+      setSelectedTemps((prevSelectedTemperaments) => [
+        ...prevSelectedTemperaments,
+        selectedTempObject,
+      ]);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        temperaments: "",
+      }));
+    } else {
+      // Mostrar error si el temperamento ya está seleccionado
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        temperaments: "Este temperamento ya ha sido seleccionado",
+      }));
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const validationErrors = validate(input);
-
-    if (Object.keys(validationErrors).length === 0) {
       const dog = {
         ...input,
         temperaments: input.temperaments.map((temp) => temp.name),
@@ -85,7 +104,6 @@ const Form = () => {
         temperaments: [],
       });
       setSelectedTemps([]);
-    }
   };
 
   const handleRemove = (temperament) => {
@@ -162,40 +180,43 @@ const Form = () => {
               {errors.image && <p className={styles.error}>{errors.image}</p>}
             </div>
             <div className={styles.field}>
-              <label htmlFor="temperament" className={styles.label}>
-                Temperamento:
-              </label>
-              {errors.temperaments && (
-                <p className={styles.error}>{errors.temperaments}</p>
-              )}
-              <select
-                id="temperaments"
-                onChange={handleSelect}
-                className={styles.select}
-              >
-                <option value="">Seleccionar</option>
-                {filteredTemps?.map((temp) => (
-                  <option key={temp.id} value={temp.name}>
-                    {temp.name}
-                  </option>
-                ))}
-              </select>
-              <div className={styles.selectedTemps}>
-                {selectedTemps?.sort().map((temp) => (
-                  <div key={temp.id} className={styles.selectedTemp}>
-                    <span>{temp.name}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemove(temp)}
-                      className={styles.removeButton}
-                    >
-                      x
-                    </button>
-                  </div>
-                ))}
-              </div>
+            <label htmlFor="temperament" className={styles.label}>
+              Temperamento:
+            </label>
+            <select
+              id="temperaments"
+              onChange={handleSelect}
+              className={styles.select}
+            >
+              <option value="">Seleccionar</option>
+              {filteredTemps?.map((temp) => (
+                <option key={temp.id} value={temp.name}>
+                  {temp.name}
+                </option>
+              ))}
+            </select>
+            <div className={styles.selectedTemps}>
+              {selectedTemps?.sort().map((temp) => (
+                <div key={temp.id} className={styles.selectedTemp}>
+                  <span>{temp.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemove(temp)}
+                    className={styles.removeButton}
+                  >
+                    x
+                  </button>
+                </div>
+              ))}
             </div>
-            <button type="submit" className={styles.createButton}>
+            {errors.temperaments && (
+              <p className={styles.error}>{errors.temperaments}</p>
+            )}
+            {errors.duplicateTemperament && (
+              <p className={styles.error}>{errors.duplicateTemperament}</p>
+            )}
+          </div>
+            <button type="submit" ref={crearButtonRef} className={styles.createButton}>
               Crear
             </button>
           </div>
