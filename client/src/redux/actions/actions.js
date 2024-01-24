@@ -74,7 +74,7 @@ import {
         alert("Perro creado correctamente");
         return response;
       } catch (error) {
-        alert(error.message);
+        alert("Verificar que todos los datos para crear al perro esten completos");
       }
     };
   };
